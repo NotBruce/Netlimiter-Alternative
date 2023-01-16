@@ -9,7 +9,7 @@ namespace Netlimiter_Alternative
     {
         public KeyModifiers modifier = KeyModifiers.Control;
         public FilterModel[] filters = {new FilterModel(3074, 1, "4", false), new FilterModel(30000, 1, "5", false)};
-        public String appPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Destiny 2\\destiny2.exe";
+        public string appPath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Destiny 2\\destiny2.exe";
 
 
         public static ConfigurationServices Load()

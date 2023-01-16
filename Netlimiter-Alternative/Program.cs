@@ -33,6 +33,8 @@ namespace Netlimiter_Alternative
                 Console.WriteLine(filt.port + " Added");
             }
 
+            HotKeyManager.RegisterHotKey(System.Windows.Forms.Keys.D0, config.modifier);
+
             Console.Clear();
             Console.WriteLine("Kill Connections - " + config.modifier.ToString() + " + 0");
             foreach (VFilter filt in filters)
