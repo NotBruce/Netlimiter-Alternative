@@ -18,6 +18,7 @@ namespace Netlimiter_Alternative.Limit
         public ushort port;
         public uint bytes;
         public FilterModel filterModel;
+        public string filterName;
 
         public VFilter(NLClient client, RuleDir ruleDir, ushort port, uint bytes, FilterModel filterModel)
         {
@@ -26,19 +27,27 @@ namespace Netlimiter_Alternative.Limit
             this.port = port;
             this.bytes = bytes;
             this.filterModel = filterModel;
+            if (port > 0)
+            {
+                this.filterName = port.ToString() + ((ruleDir.ToString() == "Out") ? " UL" : " DL");
+            }
+            else
+            {
+                this.filterName = "Destiny 2";
+            }
             HotKeyManager.RegisterHotKey(filterModel.getKeyFromString(), Program.config.modifier);
 
             this.rule = new LimitRule(ruleDir, bytes);
 
             // Checks if filter does not exist, if it doesnt exist create new filter.
-            if (client.Filters.Find(x => x.Name == port.ToString() + ((ruleDir.ToString() == "Out") ? " UL" : " DL")) == null)
+            if (client.Filters.Find(x => x.Name == filterName) == null)
             {
                 createFilter();
                 return;
             }
 
             Console.WriteLine("Filter already exists - Writing filter.");
-            this.filter = client.Filters.Find(x => x.Name == port.ToString() + ((ruleDir.ToString() == "Out") ? " UL" : " DL"));
+            this.filter = client.Filters.Find(x => x.Name == this.filterName);
 
             this.rule = client.Rules.Find(x => x.FilterId == this.filter.Id);
             this.rule.IsEnabled = false;
@@ -59,7 +68,7 @@ namespace Netlimiter_Alternative.Limit
         public Filter checkForFullGameAndAdd(String appPath)
         {
             Filter filter;
-            filter = new Filter(port.ToString() + ((ruleDir.ToString() == "Out") ? " UL" : " DL"));
+            filter = new Filter(this.filterName);
             filter.Functions.Add(new FFRemotePortInRange(new PortRangeFilterValue(port, port))); // Limit port in range
             return filter;
         }

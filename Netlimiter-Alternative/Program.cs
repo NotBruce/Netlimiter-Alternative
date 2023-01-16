@@ -33,7 +33,7 @@ namespace Netlimiter_Alternative
                 Console.WriteLine(filt.port + " Added");
             }
 
-            //Console.Clear();
+            Console.Clear();
             Console.WriteLine("Kill Connections - " + config.modifier.ToString() + " + 0");
             foreach (VFilter filt in filters)
             {
@@ -50,7 +50,7 @@ namespace Netlimiter_Alternative
 
             HotKeyManager.HotKeyPressed += new EventHandler<HotKeyEventArgs>((object sender, HotKeyEventArgs e) =>
             {
-                //Console.Clear();
+                Console.Clear();
                 Console.WriteLine("Kill Connections - " + config.modifier.ToString() + " + 0");
                 foreach (VFilter filt in filters)
                 {
