@@ -37,15 +37,7 @@ namespace Netlimiter_Alternative
             Console.WriteLine("Kill Connections - " + config.modifier.ToString() + " + 0");
             foreach (VFilter filt in filters)
             {
-                if (filt.port == 0)
-                {
-                    Console.WriteLine("Destiny 2" + ((filt.ruleDir.ToString() == "Out") ? " UL" : " DL") + " [" + ((filt.rule.IsEnabled == true) ? "On]" : "Off]") + " - CTRL + " + filt.filterModel.getKeyFromString().ToString());
-
-                }
-                else
-                {
-                    Console.WriteLine(filt.port.ToString() + ((filt.ruleDir.ToString() == "Out") ? " UL" : " DL") + " [" + ((filt.rule.IsEnabled == true) ? "On]" : "Off]") + " - CTRL + " + filt.filterModel.getKeyFromString().ToString());
-                }
+                Console.WriteLine(filt.filterName + " [" + ((filt.rule.IsEnabled == true) ? "On]" : "Off]") + " - CTRL + " + filt.filterModel.getKeyFromString().ToString());
             }
 
             HotKeyManager.HotKeyPressed += new EventHandler<HotKeyEventArgs>((object sender, HotKeyEventArgs e) =>
@@ -65,16 +57,7 @@ namespace Netlimiter_Alternative
                         filt.killConnections();
                     }
 
-
-                    if (filt.port == 0)
-                    {
-                        Console.WriteLine("Destiny 2" + ((filt.ruleDir.ToString() == "Out") ? " UL" : " DL") + " [" + ((filt.rule.IsEnabled == true) ? "On]" : "Off]") + " - CTRL + " + filt.filterModel.getKeyFromString().ToString());
-
-                    }
-                    else
-                    {
-                        Console.WriteLine(filt.port.ToString() + ((filt.ruleDir.ToString() == "Out") ? " UL" : " DL") + " [" + ((filt.rule.IsEnabled == true) ? "On]" : "Off]") + " - CTRL + " + filt.filterModel.getKeyFromString().ToString());
-                    }
+                    Console.WriteLine(filt.filterName + " [" + ((filt.rule.IsEnabled == true) ? "On]" : "Off]") + " - CTRL + " + filt.filterModel.getKeyFromString().ToString());
                 }
             });
 
