@@ -16,7 +16,6 @@ namespace Netlimiter_Alternative
 
         static void Main(string[] args)
         {
-            Console.CancelKeyPress += Shutdown;
             // Connecting to Netlimiter 4 Pro
             try
             {
@@ -34,8 +33,7 @@ namespace Netlimiter_Alternative
                 Console.WriteLine(filt.port + " Added");
             }
 
-            Console.Clear();
-            Console.WriteLine("Limiter Options: ");
+            //Console.Clear();
             Console.WriteLine("Kill Connections - " + config.modifier.ToString() + " + 0");
             foreach (VFilter filt in filters)
             {
@@ -52,21 +50,21 @@ namespace Netlimiter_Alternative
 
             HotKeyManager.HotKeyPressed += new EventHandler<HotKeyEventArgs>((object sender, HotKeyEventArgs e) =>
             {
-                Console.Clear();
-                Console.WriteLine("Limiter Options: ");
+                //Console.Clear();
                 Console.WriteLine("Kill Connections - " + config.modifier.ToString() + " + 0");
                 foreach (VFilter filt in filters)
                 {
-                    if (e.Key == System.Windows.Forms.Keys.D0 && e.Modifiers == config.modifier && filt.port == 30000)
-                    {
-                        filt.killConnections();
-                    }
-
                     if (e.Key == filt.filterModel.getKeyFromString() && e.Modifiers == config.modifier)
                     {
                         filt.rule.IsEnabled = !filt.rule.IsEnabled;
                         client.UpdateRule(filt.rule);
                     }
+
+                    if (e.Key == System.Windows.Forms.Keys.D0 && e.Modifiers == config.modifier && filt.port == 30000)
+                    {
+                        filt.killConnections();
+                    }
+
 
                     if (filt.port == 0)
                     {
@@ -81,15 +79,6 @@ namespace Netlimiter_Alternative
             });
 
             Console.ReadLine();
-        }
-
-        static void Shutdown(object sender, ConsoleCancelEventArgs e)
-        {
-            foreach (VFilter filt in filters)
-            {
-                filt.rule.IsEnabled = false;
-                client.UpdateRule(filt.rule);
-            }
         }
     }
 }

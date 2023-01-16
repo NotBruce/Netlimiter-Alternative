@@ -33,24 +33,25 @@ namespace Netlimiter_Alternative.Limit
             // Checks if filter does not exist, if it doesnt exist create new filter.
             if (client.Filters.Find(x => x.Name == port.ToString() + ((ruleDir.ToString() == "Out") ? " UL" : " DL")) == null)
             {
-                this.filter = checkForFullGameAndAdd(Program.config.appPath);
-
-                this.filter = client.AddFilter(this.filter);
-                this.rule = client.AddRule(this.filter.Id, new LimitRule(ruleDir, bytes));
-                this.rule.IsEnabled = false;
-                client.UpdateRule(rule);
+                createFilter();
                 return;
             }
 
-            if (port == 0)
-            {
-                this.filter = client.Filters.Find(x => x.Name == "Destiny 2");
-            }
-            else
-            {
-                this.filter = client.Filters.Find(x => x.Name == port.ToString() + ((ruleDir.ToString() == "Out") ? " UL" : " DL"));
-            }
+            Console.WriteLine("Filter already exists - Writing filter.");
+            this.filter = client.Filters.Find(x => x.Name == port.ToString() + ((ruleDir.ToString() == "Out") ? " UL" : " DL"));
+
             this.rule = client.Rules.Find(x => x.FilterId == this.filter.Id);
+            this.rule.IsEnabled = false;
+            client.UpdateRule(rule);
+        }
+
+        public void createFilter()
+        {
+            Console.WriteLine("Creating filter");
+            this.filter = checkForFullGameAndAdd(Program.config.appPath);
+
+            this.filter = client.AddFilter(this.filter);
+            this.rule = client.AddRule(this.filter.Id, new LimitRule(ruleDir, bytes));
             this.rule.IsEnabled = false;
             client.UpdateRule(rule);
         }
@@ -58,17 +59,8 @@ namespace Netlimiter_Alternative.Limit
         public Filter checkForFullGameAndAdd(String appPath)
         {
             Filter filter;
-            if (port > 0)
-            {
-                filter = new Filter(port.ToString() + ((ruleDir.ToString() == "Out") ? " UL" : " DL"));
-                filter.Functions.Add(new FFRemotePortInRange(new PortRangeFilterValue(port, port))); // Limit port in range
-            }
-            else
-            {
-                filter = new Filter("Destiny 2");
-            }
-            filter.Functions.Add(new FFPathEqual(appPath));
-
+            filter = new Filter(port.ToString() + ((ruleDir.ToString() == "Out") ? " UL" : " DL"));
+            filter.Functions.Add(new FFRemotePortInRange(new PortRangeFilterValue(port, port))); // Limit port in range
             return filter;
         }
 
