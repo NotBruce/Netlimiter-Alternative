@@ -69,7 +69,11 @@ namespace Netlimiter_Alternative.Limit
         {
             Filter filter;
             filter = new Filter(this.filterName);
-            filter.Functions.Add(new FFRemotePortInRange(new PortRangeFilterValue(port, port))); // Limit port in range
+            filter.Functions.Add(new FFPathEqual(appPath));
+            if (this.port != 0)
+            {
+                filter.Functions.Add(new FFRemotePortInRange(new PortRangeFilterValue(port, port))); // Limit port in range
+            }  
             return filter;
         }
 
