@@ -46,7 +46,6 @@ namespace Netlimiter_Alternative.Limit
                 return;
             }
 
-            Console.WriteLine("Filter already exists - Writing filter.");
             this.filter = client.Filters.Find(x => x.Name == this.filterName);
 
             this.rule = client.Rules.Find(x => x.FilterId == this.filter.Id);
